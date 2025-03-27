@@ -9,5 +9,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'RIU-frontend-tomas-martinez';
+  title = 'RIU-HEROES';
 }
