@@ -1,0 +1,52 @@
+@use 'styles';
+
+.loader {
+	--color: var(--white);
+	--background: var(--background--hidden);
+
+	position: relative;
+	color: var(--color);
+
+	&--radius {
+		border-radius: var(--spacing--xxs);
+	}
+
+	&-loading {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100dvw;
+		height: 100dvh;
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		gap: var(--spacing--xxs);
+		align-items: center;
+		z-index: 9000;
+
+		svg {
+			will-change: transform;
+			animation: rotate 1s linear infinite;
+
+			@keyframes rotate {
+				0% {
+					transform: rotate(0deg);
+				}
+
+				100% {
+					transform: rotate(360deg);
+				}
+			}
+		}
+
+		span {
+			font-size: var(--font-size--normal);
+			font-weight: 300;
+			line-height: var(--line-height--ms);
+		}
+	}
+
+	&--background &-loading {
+		background: var(--background);
+	}
+}
