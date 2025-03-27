@@ -1,0 +1,63 @@
+:root {
+	// Colors
+	--red--1: #f3313a;
+	--black--2: #20252b;
+	--gray--10: #6f7072;
+	--gray--20: #c8c7cc;
+	--white: #fff;
+  --background--hidden: #20252be6;
+
+	// Fonts size
+	--font-size--heading: 48px;
+	--font-size--heading-one: 36px;
+	--font-size--heading-onetwo: 32px;
+	--font-size--heading-two: 24px;
+	--font-size--heading-three: 20px;
+	--font-size--normal: 16px;
+	--font-size--normal-small: 14px;
+	--font-size--small: 12px;
+	--font-size--tiny: 8px;
+
+	// Font Family
+	--font-family-roboto: 'Roboto', 'serif';
+
+	// Line Height
+	--line-height--z: 0;
+	--line-height--xxxs: 4px;
+	--line-height--xxs: 8px;
+	--line-height--xs: 12px;
+	--line-height--s: 16px;
+	--line-height--sm: 20px;
+	--line-height--ms: 22px;
+	--line-height--m: 24px;
+	--line-height--ml: 28px;
+	--line-height--l: 32px;
+	--line-height--xl: 40px;
+	--line-height--xxl: 48px;
+
+	// Spacing
+	--spacing--z: 0;
+	--spacing--xxxs: 4px;
+	--spacing--xxs: 8px;
+	--spacing--xs: 12px;
+	--spacing--ss: 14px;
+	--spacing--s: 16px;
+	--spacing--sm: 20px;
+	--spacing--m: 24px;
+	--spacing--l: 32px;
+	--spacing--xl: 40px;
+	--spacing--xxl: 46px;
+
+	// Z Index
+	--zindex--one: 1000;
+	--zindex--two: 2000;
+	--zindex--three: 3000;
+	--zindex--four: 4000;
+	--zindex--five: 5000;
+
+	// General
+	--max-width: 1280px;
+	--line-height: 1.25;
+	--navbar-height: 50px;
+	--footer-height: 200px;
+}

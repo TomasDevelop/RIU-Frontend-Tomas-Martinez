@@ -1,0 +1,61 @@
+@use './setting' as setting;
+@use './tools' as tools;
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	min-width: 0;
+}
+
+html,
+body {
+	min-height: 100dvh;
+	font-family: var(--font-family-roboto);
+	color: var(--black--2);
+}
+
+body {
+	margin: 0;
+	color: var(--black--2);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	text-wrap: balance;
+	color: var(--black--2);
+}
+
+p {
+	text-wrap: pretty;
+	color: var(--black--2);
+}
+
+input,
+select,
+button {
+	font-family: inherit;
+}
+
+:focus-within {
+	outline: none;
+}
+
+.error-container {
+	padding: 8px;
+	display: grid;
+	grid-auto-flow: column;
+	align-items: center;
+	margin: 0;
+	background-color: var(--red-error--background);
+	border-top: 1px solid var(--red--1);
+}
+
+.error-message {
+	color: var(--red--1);
+	font-size: var(--font-size--normal-small);
+}

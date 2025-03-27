@@ -1,0 +1,150 @@
+$fonts-path: '/assets/fonts';
+
+@use './setting' as setting;
+@use 'sass:math';
+
+// From (mayor que $breakpoint)
+@mixin from($from) {
+	@if $from == zero {
+		@media screen and (width > 0) {
+			@content;
+		}
+	}
+
+	@if $from == mobile {
+		@media screen and (width > 320px) {
+			@content;
+		}
+	}
+
+	@if $from == mobile-medium {
+		@media screen and (width > 480px) {
+			@content;
+		}
+	}
+
+	@if $from == landscape {
+		@media screen and (width > 576px) {
+			@content;
+		}
+	}
+
+	@if $from == tablet {
+		@media screen and (width > 768px) {
+			@content;
+		}
+	}
+
+	@if $from == desktop {
+		@media screen and (width > 992px) {
+			@content;
+		}
+	}
+
+	@if $from == medium-desktop {
+		@media screen and (width > 1180px) {
+			@content;
+		}
+	}
+
+	@if $from == extra-desktop {
+		@media screen and (width > 1280px) {
+			@content;
+		}
+	}
+}
+
+// To (es menor que $to)
+@mixin to($to) {
+	@if $to == zero {
+		@media screen and (width <= 0) {
+			@content;
+		}
+	}
+
+	@if $to == mobile {
+		@media screen and (width <= 320px) {
+			@content;
+		}
+	}
+
+	@if $to == mobile-medium {
+		@media screen and (width <= 480px) {
+			@content;
+		}
+	}
+
+	@if $to == landscape {
+		@media screen and (width <= 576px) {
+			@content;
+		}
+	}
+
+	@if $to == tablet {
+		@media screen and (width <= 768px) {
+			@content;
+		}
+	}
+
+	@if $to == desktop {
+		@media screen and (width <= 992px) {
+			@content;
+		}
+	}
+
+	@if $to == medium-desktop {
+		@media screen and (width <= 1120) {
+			@content;
+		}
+	}
+
+	@if $to == extra-desktop {
+		@media screen and (width <= 1280px) {
+			@content;
+		}
+	}
+}
+
+@mixin fontsizeHeadingOne() {
+	font-size: var(--font-size--heading-two);
+
+	@include from(desktop) {
+		font-size: var(--font-size--heading-one);
+	}
+}
+
+@mixin fontsizeHeadingTwo() {
+	font-size: var(--font-size--heading-three);
+
+	@include from(desktop) {
+		font-size: var(--font-size--heading-two);
+	}
+}
+
+@mixin fontsizeHeadingThree() {
+	font-size: var(--font-size--normal);
+
+	@include from(desktop) {
+		font-size: var(--font-size--heading-three);
+	}
+}
+
+@mixin fontsizeNormal() {
+	font-size: var(--font-size--small);
+
+	@include from(desktop) {
+		font-size: var(--font-size--normal);
+	}
+}
+
+@mixin fontsizeSmall() {
+	font-size: var(--font-size--tiny);
+
+	@include from(desktop) {
+		font-size: var(--font-size--small);
+	}
+}
+
+@mixin fontsizeTiny() {
+	font-size: var(--font-size--tiny);
+}

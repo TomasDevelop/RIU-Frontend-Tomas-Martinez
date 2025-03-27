@@ -1,0 +1,13 @@
+/*
+  1. Pensa en la especificidad.
+  2. Nunca se añaden estilos para sobre escribir otros.
+  3. Cada capa en mas detallada o especifica que la anterior. Orden del @forward:
+    Respetar el orden de importacion de @forwards <<Pensar quien usa a quien para el orden de importacion>>.
+  4. Se pueden añadir o eliminar capaz de ser necesario.
+*/
+
+@forward './layers/_setting';
+@forward './layers/_tools';
+@forward './layers/_base';
+@forward './layers/_objects';
+@forward './layers/_trumps';
