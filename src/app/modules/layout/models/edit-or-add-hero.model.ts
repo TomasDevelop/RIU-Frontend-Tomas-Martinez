@@ -8,5 +8,3 @@ export interface EditOrAddHero {
   strong: FormControl<number>
   photo: FormControl<string>
 }
-
-export type HeroId = Pick<Heroes, 'id'>;

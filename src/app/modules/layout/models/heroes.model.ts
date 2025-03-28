@@ -5,10 +5,19 @@ export enum GENDER {
 }
 
 export interface Heroes {
-  id: string
+  id: number
   name: string
   gender: GENDER
   slogan: string
-  strong: number
-  photo: string
+  skills: Skills
+  image: string
+}
+
+export interface Skills {
+  intelligence: number,
+  strength: number,
+  speed: number,
+  durability: number,
+  power: number,
+  combat: number
 }

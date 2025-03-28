@@ -1,6 +1,11 @@
 <section>
   <h1>HEROES</h1>
    @defer (when heroes()) {
+    @for (hero of heroes(); track $index) {
+      {{hero.name}}
+    } @empty {
+      <span>Cargando heroes...</span>
+    }
   <span>Lista de heroes</span>
   } @placeholder {
     <span>Cargando heroes...</span>
