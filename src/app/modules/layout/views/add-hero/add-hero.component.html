@@ -1,1 +1,80 @@
-<p>add-hero works!</p>
+<section class="container">
+  <h1 class="container--title">Add new Hero</h1>
+  <span>Add your favorite Hero</span>
+
+  <form class="container__form" [formGroup]="form">
+    <section class="container__form-image">
+      <img
+        [src]="form.controls.image.value"
+        [alt]="form.controls.name.value"
+        (error)="handleImageError($event)"
+        width="220px"
+        height="220px"
+      />
+    </section>
+    <!-- Image -->
+    <mat-form-field class="example-full-width">
+      <mat-label>Image Url (Optional)</mat-label>
+      <input [formControl]="form.controls.image" matInput />
+    </mat-form-field>
+    <!-- Name -->
+    <mat-form-field class="example-full-width">
+      <mat-label>Name</mat-label>
+      <input [formControl]="form.controls.name" matInput />
+      @if (form.controls.name.invalid) {
+      <mat-error>Name is required</mat-error>
+      }
+    </mat-form-field>
+    <!-- Slogan -->
+    <mat-form-field class="example-full-width">
+      <mat-label>Slogan</mat-label>
+      <textarea [formControl]="form.controls.slogan" matInput></textarea>
+      @if (form.controls.slogan.invalid) {
+      <mat-error>Slogan is required</mat-error>
+      }
+    </mat-form-field>
+    <!-- Gender -->
+    <mat-form-field>
+      <mat-label>Gender</mat-label>
+      <mat-select [formControl]="form.controls.gender">
+        <mat-option value="Male">Male</mat-option>
+        <mat-option value="Female">Female</mat-option>
+        <mat-option value="Other">Other</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- Skills -->
+    <section class="container__form-skills" formGroupName="skills">
+      @for (skillCtrl of form.controls.skills.value | keyvalue; track
+      skillCtrl.key) {
+      <!-- All Skills -->
+      <mat-form-field class="example-full-width">
+        <!-- Label -->
+        <mat-label>{{ skillCtrl.key | titlecase }}</mat-label>
+        <!-- Input -->
+        <input
+          type="number"
+          [formControl]="getSkillControl(skillCtrl.key)"
+          matInput
+        />
+        <!-- Errors -->
+        @if (form.controls.skills.get(skillCtrl.key)?.hasError('required')) {
+        <mat-error>{{ skillCtrl.key | titlecase }} is required</mat-error>
+        } @if (form.controls.skills.get(skillCtrl.key)?.hasError('min') ||
+        form.controls.skills.get(skillCtrl.key)?.hasError('max')) {
+        <mat-error>The number must be between 1 and 100</mat-error>
+        }
+      </mat-form-field>
+      }
+    </section>
+  </form>
+  <!-- Back  -->
+  <section class="container__form-footer">
+    <button mat-raised-button color="warn" [routerLink]="['/list']">
+      Back to List
+    </button>
+    <!-- Update hero -->
+    <button mat-raised-button color="primary" (click)="onSubmit(this.form)">
+      Add hero
+    </button>
+  </section>
+</section>

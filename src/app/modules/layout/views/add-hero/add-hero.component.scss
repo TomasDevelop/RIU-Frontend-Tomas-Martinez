@@ -1,0 +1,42 @@
+@use "../../../../styles/styles.scss";
+
+.container {
+  margin: 16px auto;
+  max-width: 1400px;
+  padding: var(--spacing--m);
+
+  &--title{
+    margin-top: var(--spacing--m);
+    font-size: var(--font-size--heading-one);
+    line-height: var(--line-height--xl);
+  }
+
+  &__form{
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing--s);
+
+    &-image{
+      display: grid;
+      justify-content: center;
+      margin-bottom: var(--spacing--m);
+    }
+
+    &-skills{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 4fr));
+      gap: var(--spacing--m);
+    }
+
+    &-footer{
+      display: grid;
+      align-items: center;
+      justify-content: center;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing--m);
+      margin-top: var(--spacing--l);
+    }
+  }
+}

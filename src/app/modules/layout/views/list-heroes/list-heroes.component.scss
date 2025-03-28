@@ -2,6 +2,10 @@
 
 .container {
   margin: 16px;
+
+  &--title{
+    font-size: var(--font-size--heading-one);
+  }
 }
 
 .card__container {
@@ -53,6 +57,7 @@
       padding: var(--spacing--s);
       font-size: var(--font-size--normal-small);
       text-align: center;
+      min-height: 80px;
     }
   }
 }
@@ -88,5 +93,9 @@ mat-paginator {
   .mat-mdc-standard-chip .mdc-evolution-chip__cell--primary{
     width: 130px;
     text-wrap: auto;
+  }
+
+  .mat-mdc-paginator-page-size{
+    display: none !important;
   }
 }

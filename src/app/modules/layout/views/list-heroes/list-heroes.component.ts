@@ -37,7 +37,6 @@ export class ListHeroesComponent {
   // Computed signals
   public pagedHeroes = computed<Heroes[]>(() => {
     const startIndex = this.currentPage() * this.pageSize();
-    console.log(startIndex)
     return this.heroes().slice(startIndex, startIndex + this.pageSize());
   });
   public heroes = computed<Heroes[]>(() => this.#dataHeroes.dataAllHeroes())
@@ -65,5 +64,11 @@ export class ListHeroesComponent {
   onPageChange(event: PageEvent) {
     this.currentPage.set(event.pageIndex);
     this.pageSize.set(event.pageSize);
+  }
+
+  handleImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.onerror = null; // Para evitar bucles
+    imgElement.src = 'assets/svg/heroes/image-broken.webp';
   }
 }

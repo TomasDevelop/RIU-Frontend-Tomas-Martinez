@@ -13,7 +13,7 @@ export class HeroesService {
   public dataAllHeroes = this.dataSignal.asReadonly();
 
   getHeroById(heroId: number): Heroes | undefined {
-    return this.dataAllHeroes().find(hero => hero.id === heroId)
+    return this.dataAllHeroes().find(hero => heroId == hero.id)
   }
 
   addHero(hero: Omit<Heroes, 'id'>): void {
@@ -24,12 +24,11 @@ export class HeroesService {
     });
   }
 
-  updateHero(heroId: number, updatedHero: Heroes): void {
+  updateHero(updatedHero: Heroes): void {
+    console.log(updatedHero)
     this.dataSignal.update(currentHeroes => {
-      const index = currentHeroes.findIndex(hero => hero.id === heroId);
-      if (index === -1) return currentHeroes;
-
-      const updated = [...currentHeroes];
+      const index = currentHeroes.findIndex(hero => hero.id === updatedHero.id);
+      let updated = [...currentHeroes];
       updated[index] = updatedHero;
       return updated;
     });

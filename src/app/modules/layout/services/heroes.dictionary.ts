@@ -161,5 +161,14 @@ export const HeroesDictionary: Heroes[] = [
       skills: { intelligence: 80, strength: 15, speed: 30, durability: 40, power: 25, combat: 75 },
       image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz8DxJEWPJC4alHeq7AZIPNU1OOqHOwYbjHg&s'
     }
-
 ]
+
+export const DEFAULT_HERO: Heroes = {
+    id: 9999999999999,
+    name: 'Default',
+    gender: GENDER.O,
+    slogan: '',
+    skills: { intelligence: 0, strength: 0, speed: 0, durability: 0, power: 0, combat: 0 },
+    image: ''
+  }
+

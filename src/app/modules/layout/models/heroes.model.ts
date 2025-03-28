@@ -1,7 +1,7 @@
 export enum GENDER {
-  M = 'Masculino',
-  F = 'Femenino',
-  O = 'Otro'
+  M = 'Male',
+  F = 'Female',
+  O = 'Other'
 }
 
 export interface Heroes {

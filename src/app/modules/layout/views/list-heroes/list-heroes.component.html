@@ -1,11 +1,8 @@
 <section class="container">
-  <h1>HEROES</h1>
-  <mat-paginator
-    [length]="heroes().length"
-    [pageSize]="pageSize()"
-    (page)="onPageChange($event)"
-    aria-label="Select page"
-  />
+  <h1 class="container--title">Lista de Heroes</h1>
+  <span>Mirá a tus heroes favoritos</span>
+  <mat-paginator [length]="heroes().length" [pageSize]="pageSize()" (page)="onPageChange($event)"
+    aria-label="Select page" />
   @defer (when heroes()) {
   <section class="card__container">
     @for (hero of pagedHeroes(); track $index) {
@@ -14,27 +11,22 @@
         <h1 class="matCard--title">{{ hero.name }}</h1>
       </mat-card-header>
       <mat-card-content class="matCard--content">
-        <img
-          mat-card-image
-          [src]="hero.image"
-          [alt]="hero.name"
-          class="matCard--image"
+        <img mat-card-image [src]="hero.image || 'assets/svg/heroes/image-broken.webp'"
+        (error)="handleImageError($event)"
+        [alt]="hero.name"
+        class="matCard--image"
         />
       </mat-card-content>
-        <mat-chip-set aria-label="Skills">
-          <mat-chip>Combat: {{hero.skills.combat}}</mat-chip>
-          <mat-chip>Durability: {{hero.skills.durability}}</mat-chip>
-          <mat-chip>Intelligence: {{hero.skills.intelligence}}</mat-chip>
-          <mat-chip>Power: {{hero.skills.power}}</mat-chip>
-          <mat-chip>Speed: {{hero.skills.speed}}</mat-chip>
-          <mat-chip>Strength: {{hero.skills.strength}}</mat-chip>
-        </mat-chip-set>
+      <mat-chip-set aria-label="Skills">
+        <mat-chip>Combat: {{hero.skills.combat}}</mat-chip>
+        <mat-chip>Durability: {{hero.skills.durability}}</mat-chip>
+        <mat-chip>Intelligence: {{hero.skills.intelligence}}</mat-chip>
+        <mat-chip>Power: {{hero.skills.power}}</mat-chip>
+        <mat-chip>Speed: {{hero.skills.speed}}</mat-chip>
+        <mat-chip>Strength: {{hero.skills.strength}}</mat-chip>
+      </mat-chip-set>
       <mat-card-actions class="matCard--actions">
-        <button
-          mat-raised-button
-          color="primary"
-          [routerLink]="['/update', hero.id]"
-        >
+        <button mat-raised-button color="primary" [routerLink]="['/update', hero.id]">
           Edit
         </button>
         <button mat-raised-button color="warn" (click)="openDialogDelete(hero)">
@@ -46,7 +38,7 @@
       </mat-card-footer>
     </mat-card>
     } @empty {
-      No hay heroes disponibles en éste paginado.
+    No hay heroes disponibles en éste paginado.
     }
   </section>
   } @placeholder {
