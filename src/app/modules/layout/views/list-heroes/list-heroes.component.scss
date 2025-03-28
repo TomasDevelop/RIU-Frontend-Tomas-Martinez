@@ -1,0 +1,92 @@
+@use "../../../../styles/styles.scss";
+
+.container {
+  margin: 16px;
+}
+
+.card__container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing--s);
+
+  &-matCard {
+    --max-width: 300px;
+
+    display: grid;
+    grid-template-columns: auto;
+    max-width: var(--max-width);
+    margin: var(--spacing--l) auto;
+    text-align: center;
+    transition: transform 0.3s ease;
+    background-color: #fff;
+    border: 1.5px solid var(--black--2);
+
+    @include styles.from(tablet) {
+      width: 100%;
+      margin: var(--spacing--s) auto;
+    }
+
+    .matCard--title {
+      font-size: var(--font-size--heading-two);
+      margin: 0 auto;
+    }
+
+    .matCard--image {
+      height: 220px;
+      width: 220px;
+      object-fit: fill;
+    }
+
+    .matCard--actions {
+      display: flex;
+      justify-content: space-around;
+      padding: var(--spacing--s);
+
+      button {
+        font-size: var(--font-size--normal);
+      }
+    }
+
+    .matCard--footer {
+      padding: var(--spacing--s);
+      font-size: var(--font-size--normal-small);
+      text-align: center;
+    }
+  }
+}
+
+.card__container-matCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+mat-paginator {
+  margin-top: var(--spacing--l);
+  background: var(--primary);
+  border: 1px solid var(--black--2);
+  border-radius: 16px;
+}
+
+::ng-deep {
+  .mdc-evolution-chip-set__chips {
+    display: flex;
+    justify-content: space-around;
+    gap: var(--spacing--xxxs);
+    margin-left: 0 !important;
+    margin: 16px 0;
+  }
+  .mat-mdc-chip-set .mdc-evolution-chip {
+    margin: 0 !important;
+  }
+
+  .mat-mdc-chip-set .mdc-evolution-chip-set__chips {
+    margin-left: 0 !important;
+  }
+
+  .mat-mdc-standard-chip .mdc-evolution-chip__cell--primary{
+    width: 130px;
+    text-wrap: auto;
+  }
+}
