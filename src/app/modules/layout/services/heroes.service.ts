@@ -1,5 +1,5 @@
 // The Angular Imports
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 // Models
 import { Heroes } from '@app/modules/layout/models/heroes.model';
 import { HeroesDictionary } from './heroes.dictionary';
@@ -13,21 +13,20 @@ export class HeroesService {
   public dataAllHeroes = this.dataSignal.asReadonly();
 
   getHeroById(heroId: number): Heroes | undefined {
-    return this.dataAllHeroes().find(hero => heroId == hero.id)
+    return this.dataAllHeroes().find(hero => heroId == Number(hero.id))
   }
 
   addHero(hero: Omit<Heroes, 'id'>): void {
     this.dataSignal.update(currentHeroes => {
       const lastId = currentHeroes.length > 0 ? Math.max(...currentHeroes.map(h => h.id)) : 0;
-
       return [{ ...hero, id: lastId + 1 }, ...currentHeroes];
     });
   }
 
   updateHero(updatedHero: Heroes): void {
-    console.log(updatedHero)
     this.dataSignal.update(currentHeroes => {
       const index = currentHeroes.findIndex(hero => hero.id === updatedHero.id);
+      if (index === -1) return currentHeroes
       let updated = [...currentHeroes];
       updated[index] = updatedHero;
       return updated;
@@ -38,6 +37,19 @@ export class HeroesService {
     this.dataSignal.update(currentHeroes =>
       currentHeroes.filter(hero => hero.id !== heroId)
     );
+  }
+
+  private searchTerm = signal<string>('');
+
+  public filteredHeroes = computed(() => {
+    const term = this.searchTerm().toLowerCase();
+    return this.dataSignal().filter(hero =>
+      hero.name.toLowerCase().includes(term)
+    );
+  });
+
+  public searchHeroes(term: string): void {
+    this.searchTerm.set(term.trim());
   }
 
 }

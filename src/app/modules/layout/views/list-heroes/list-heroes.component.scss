@@ -6,6 +6,28 @@
   &--title{
     font-size: var(--font-size--heading-one);
   }
+
+  &--paginator{
+    position: relative;
+    button{
+      position: absolute;
+      top: -8px;
+      left: 8px;
+      border: 1px solid var(--black--2);
+      width: 130px;
+
+      @include styles.from(landscape){
+        width: 200px;
+      }
+    }
+
+    form{
+      width: 100%;
+      margin: var(--spacing--s) 0;
+      display: flex;
+      justify-content: center;
+    }
+  }
 }
 
 .card__container {

@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 // Components
 import { LayoutComponent } from './layout.component';
 import { ROUTES } from '@app/shared/utils';
-import { routeIdGuard } from '@app/shared/guards/route-id.guard';
 
 export const LAYOUT_ROUTES: Routes = [
   {
@@ -21,7 +20,6 @@ export const LAYOUT_ROUTES: Routes = [
       {
         path: `${ROUTES.edit}/:id`,
         loadComponent: () => import('./views/edit-hero/edit-hero.component').then((c) => c.EditHeroComponent),
-        canMatch: [routeIdGuard]
       },
       { path: '**', redirectTo: ROUTES.list, pathMatch: 'full' },
     ]

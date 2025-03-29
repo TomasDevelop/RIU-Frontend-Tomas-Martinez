@@ -8,7 +8,7 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 // Models
 import { EditOrAddHero, EditOrAddSkills } from '@app/modules/layout/models/edit-or-add-hero.model';
 import { GENDER, Heroes } from '@app/modules/layout/models/heroes.model';
@@ -16,6 +16,7 @@ import { GENDER, Heroes } from '@app/modules/layout/models/heroes.model';
 import { HeroesService } from '@app/modules/layout/services/heroes.service';
 // Components
 import { LoaderComponent } from '@app/shared/components/loader/loader.component';
+import { ROUTES } from '@app/shared/utils';
 
 const components = [
   LoaderComponent,
@@ -40,6 +41,7 @@ const components = [
 export class EditHeroComponent implements OnInit {
   #fb = inject(NonNullableFormBuilder)
   #hero = inject(HeroesService)
+  #router = inject(Router)
   id = input.required<number>()
 
   readonly heroById = computed<Heroes | undefined>(() => {
@@ -119,5 +121,7 @@ export class EditHeroComponent implements OnInit {
     }
 
     this.#hero.updateHero(UPDATE_PAYLOAD)
+    this.#router.navigate([ROUTES.list])
+    return
   }
 }

@@ -23,7 +23,7 @@ export const HeroesDictionary: Heroes[] = [
       gender: GENDER.F,
       slogan: 'Strength is more than physical',
       skills: { intelligence: 88, strength: 90, speed: 80, durability: 95, power: 92, combat: 96 },
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Lynda_Carter_Wonder_Woman.JPG/800px-Lynda_Carter_Wonder_Woman.JPG '
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Lynda_Carter_Wonder_Woman.JPG/800px-Lynda_Carter_Wonder_Woman.JPG'
     },
     {
       id: 3,

@@ -7,12 +7,13 @@ import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 // Models
 import { EditOrAddHero, EditOrAddSkills } from '@app/modules/layout/models/edit-or-add-hero.model';
 import { GENDER, Heroes } from '@app/modules/layout/models/heroes.model';
 // Services
 import { HeroesService } from '@app/modules/layout/services/heroes.service';
+import { ROUTES } from '@app/shared/utils';
 
 const components = [
   MatInputModule,
@@ -31,82 +32,85 @@ const components = [
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddHeroComponent {
-   #fb = inject(NonNullableFormBuilder)
-    #hero = inject(HeroesService)
-    id = input.required<number>()
+  #fb = inject(NonNullableFormBuilder)
+  #hero = inject(HeroesService)
+  #router = inject(Router)
+  id = input.required<number>()
 
-    readonly heroById = computed<Heroes | undefined>(() => {
-      return this.#hero.getHeroById(this.id())
-    })
-    getSkillControl(key: string): FormControl<number> {
-      return this.form.controls.skills.get(key) as FormControl<number>;
-    }
+  readonly heroById = computed<Heroes | undefined>(() => {
+    return this.#hero.getHeroById(this.id())
+  })
+  getSkillControl(key: string): FormControl<number> {
+    return this.form.controls.skills.get(key) as FormControl<number>;
+  }
 
-    readonly skillValidators = [
-      Validators.required,
-      Validators.min(1),
-      Validators.max(100),
-      Validators.pattern(/^\d+$/)
+  readonly skillValidators = [
+    Validators.required,
+    Validators.min(1),
+    Validators.max(100),
+    Validators.pattern(/^\d+$/)
   ];
 
-    form: FormGroup<EditOrAddHero> = this.#fb.group<EditOrAddHero>({
-      name: this.#fb.control('', {
-        validators: [Validators.required],
+  form: FormGroup<EditOrAddHero> = this.#fb.group<EditOrAddHero>({
+    name: this.#fb.control('', {
+      validators: [Validators.required],
+    }),
+    gender: this.#fb.control(GENDER.O, {
+      validators: [Validators.required],
+    }),
+    slogan: this.#fb.control('', {
+      validators: [Validators.required],
+    }),
+    skills: this.#fb.group<EditOrAddSkills>({
+      intelligence: this.#fb.control(0, {
+        validators: this.skillValidators,
       }),
-      gender: this.#fb.control(GENDER.O, {
-        validators: [Validators.required],
+      strength: this.#fb.control(0, {
+        validators: this.skillValidators,
       }),
-      slogan: this.#fb.control('', {
-        validators: [Validators.required],
+      speed: this.#fb.control(0, {
+        validators: this.skillValidators,
       }),
-      skills: this.#fb.group<EditOrAddSkills>({
-        intelligence: this.#fb.control(0, {
-          validators: this.skillValidators,
-        }),
-        strength: this.#fb.control(0, {
-          validators: this.skillValidators,
-        }),
-        speed: this.#fb.control(0, {
-          validators: this.skillValidators,
-        }),
-        durability: this.#fb.control(0, {
-          validators: this.skillValidators,
-        }),
-        power: this.#fb.control(0, {
-          validators: this.skillValidators,
-        }),
-        combat: this.#fb.control(0, {
-          validators: this.skillValidators,
-        }),
+      durability: this.#fb.control(0, {
+        validators: this.skillValidators,
       }),
-      image: this.#fb.control(''),
-    })
+      power: this.#fb.control(0, {
+        validators: this.skillValidators,
+      }),
+      combat: this.#fb.control(0, {
+        validators: this.skillValidators,
+      }),
+    }),
+    image: this.#fb.control(''),
+  })
 
-    onSubmit(formulary: FormGroup<EditOrAddHero>): void {
-      if (formulary.invalid) return this.form.markAllAsTouched();
+  onSubmit(formulary: FormGroup<EditOrAddHero>): void {
+    if (formulary.invalid) return this.form.markAllAsTouched();
 
-      const UPDATE_PAYLOAD: Omit<Heroes, 'id'> = {
-        name: formulary.controls.name.value ?? '',
-        gender: formulary.controls.gender.value ?? '',
-        slogan: formulary.controls.slogan.value ?? '',
-        skills: {
-          intelligence: formulary.controls.skills.controls.intelligence.value ?? 0,
-          strength: formulary.controls.skills.controls.strength.value ?? 0,
-          speed: formulary.controls.skills.controls.speed.value ?? 0,
-          durability: formulary.controls.skills.controls.durability.value ?? 0,
-          power: formulary.controls.skills.controls.power.value ?? 0,
-          combat: formulary.controls.skills.controls.combat.value ?? 0
-        },
-        image: formulary.controls.image.value ?? '',
-      }
-
-      this.#hero.addHero(UPDATE_PAYLOAD)
+    const UPDATE_PAYLOAD: Omit<Heroes, 'id'> = {
+      name: formulary.controls.name.value ?? '',
+      gender: formulary.controls.gender.value ?? '',
+      slogan: formulary.controls.slogan.value ?? '',
+      skills: {
+        intelligence: formulary.controls.skills.controls.intelligence.value ?? 0,
+        strength: formulary.controls.skills.controls.strength.value ?? 0,
+        speed: formulary.controls.skills.controls.speed.value ?? 0,
+        durability: formulary.controls.skills.controls.durability.value ?? 0,
+        power: formulary.controls.skills.controls.power.value ?? 0,
+        combat: formulary.controls.skills.controls.combat.value ?? 0
+      },
+      image: formulary.controls.image.value ?? '',
     }
 
-    handleImageError(event: Event): void {
-      const imgElement = event.target as HTMLImageElement;
-      imgElement.onerror = null; // Para evitar bucles
-      imgElement.src = 'assets/svg/heroes/image-broken.webp';
+    this.#hero.addHero(UPDATE_PAYLOAD)
+    this.#router.navigate([ROUTES.list])
+    return
     }
+
+  handleImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.onerror = null; // Para evitar bucles
+    imgElement.src = 'assets/svg/heroes/image-broken.webp';
+  }
 
 }
