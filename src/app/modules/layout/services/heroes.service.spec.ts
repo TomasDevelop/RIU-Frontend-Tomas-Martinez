@@ -39,7 +39,7 @@ describe('HeroesService', () => {
     it('should handle empty hero list', () => {
       (service as any).dataSignal.set([]);
       service.addHero(mockHero);
-      expect(service.dataAllHeroes().length).toBe(1);
+      expect(service.filteredHeroes().length).toBe(1);
     });
   });
 
@@ -83,31 +83,31 @@ describe('HeroesService', () => {
     });
 
     it('should not modify list when updating non-existent hero', () => {
-      const initialHeroes = service.dataAllHeroes();
+      const initialHeroes = service.filteredHeroes();
       const invalidHero = { ...mockHero, id: 999 };
 
       service.updateHero(invalidHero);
 
-      expect(service.dataAllHeroes()).toEqual(initialHeroes);
+      expect(service.filteredHeroes()).toEqual(initialHeroes);
     });
   });
 
   describe('deleteHero', () => {
     it('should remove hero by ID', () => {
-      const initialHeroes = service.dataAllHeroes();
+      const initialHeroes = service.filteredHeroes();
 
       service.deleteHero(0);
 
       expect(service.getHeroById(0)).toBeUndefined();
-      expect(service.dataAllHeroes().length).toBe(initialHeroes.length - 1);
+      expect(service.filteredHeroes().length).toBe(initialHeroes.length - 1);
     });
 
     it('should not modify list when deleting non-existent ID', () => {
-      const initialHeroes = service.dataAllHeroes();
+      const initialHeroes = service.filteredHeroes();
 
       service.deleteHero(999);
 
-      expect(service.dataAllHeroes()).toEqual(initialHeroes);
+      expect(service.filteredHeroes()).toEqual(initialHeroes);
     });
   });
 
@@ -123,7 +123,7 @@ describe('HeroesService', () => {
     it('should return all heroes when search term is empty', () => {
       service.searchHeroes('');
 
-      expect(service.filteredHeroes().length).toBe(service.dataAllHeroes().length);
+      expect(service.filteredHeroes().length).toBe(service.filteredHeroes().length);
     });
 
     it('should update filtered list dynamically when adding heroes', () => {

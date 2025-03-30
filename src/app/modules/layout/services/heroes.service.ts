@@ -43,7 +43,7 @@ export class HeroesService {
 
   public filteredHeroes = computed(() => {
     const term = this.searchTerm().toLowerCase();
-    return this.dataSignal().filter(hero =>
+    return this.dataAllHeroes().filter(hero =>
       hero.name.toLowerCase().includes(term)
     );
   });

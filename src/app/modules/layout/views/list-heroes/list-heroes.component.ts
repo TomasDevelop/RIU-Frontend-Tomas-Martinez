@@ -2,23 +2,23 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { RouterLink } from '@angular/router';
+import { debounceTime } from 'rxjs';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 // Material
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatIconModule} from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 // Models
 import { Heroes } from '@app/modules/layout/models/heroes.model';
 // Services
-import { HeroesService } from '@app/modules/layout/services/heroes.service';
+import { HeroesService } from '../../services/heroes.service';
 // Components
-import { DialogComponent } from '@app/modules/layout/components/dialog/dialog.component';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { debounceTime } from 'rxjs';
+import { DialogComponent } from '../../components/dialog/dialog.component';
 
 const components = [
   MatCardModule,
@@ -44,12 +44,12 @@ export class ListHeroesComponent {
 
 
   // Computed signals
+  public heroes = computed<Heroes[]>(() => this.#dataHeroes.filteredHeroes())
+  public totalFiltered = computed<number>(() => this.heroes().length);
   public pagedHeroes = computed<Heroes[]>(() => {
     const startIndex = this.currentPage() * this.pageSize();
     return this.heroes().slice(startIndex, startIndex + this.pageSize());
   });
-  public heroes = computed<Heroes[]>(() => this.#dataHeroes.filteredHeroes())
-  public totalFiltered = computed(() => this.heroes().length);
   // Signals
   public displayedColumns = signal<string[]>(['position', 'name', 'weight', 'symbol']);
   public pageSize = signal<number>(4);
@@ -57,13 +57,13 @@ export class ListHeroesComponent {
   // FormControl
   public searchControl = new FormControl<string>('');
 
-  constructor(){
+  constructor() {
     this.searchControl.valueChanges
-    .pipe(takeUntilDestroyed(this.#destroyRef), debounceTime(100))
-    .subscribe((value) => {
-      this.#dataHeroes.searchHeroes(value || '')
-      this.currentPage.set(0);
-    })
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((value) => {
+        this.#dataHeroes.searchHeroes(value || '')
+        this.currentPage.set(0);
+      })
   }
 
   onPaginator(event: PageEvent) {

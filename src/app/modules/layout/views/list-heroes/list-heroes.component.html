@@ -25,10 +25,11 @@
     </form>
   </section>
 
-  @defer (when heroes()) {
+  <!-- ## Comento el defer-->
+  <!-- @defer (when heroes()) { -->
   <section class="card__container">
     @for (hero of pagedHeroes(); track $index) {
-    <mat-card appearance="outlined" class="card__container-matCard">
+    <mat-card data-testid="hero-card" appearance="outlined" class="card__container-matCard">
       <mat-card-header>
         <h1 class="matCard--title">{{ hero.name }}</h1>
       </mat-card-header>
@@ -67,7 +68,7 @@
     </mat-card>
     } @empty { No hay heroes disponibles en éste paginado. }
   </section>
-  } @placeholder {
+  <!-- } @placeholder {
   <span>Cargando heroes...</span>
-  }
+  } -->
 </section>
