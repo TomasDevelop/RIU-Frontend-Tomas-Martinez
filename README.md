@@ -24,9 +24,10 @@ npm i @angular/cli@18.2.12
 ## Estructura de sistema de archivos
 
 **`Este proyecto tiene la siguiente estructura de directorios y archivos:`**
-
+```
 src/
 ├── app/
+│
 │ ├── modules/
 | │   ├── app/
 │ │   │  ├── app.config
@@ -70,4 +71,4 @@ src/
 ├── assets/
 ├── index.html
 └── index.scss
-
+```
