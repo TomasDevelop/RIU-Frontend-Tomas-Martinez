@@ -1,5 +1,9 @@
 # RIUFrontendTomasMartinez
 
+### Diagrama del app
+
+[![PDF](https://img.shields.io/badge/PDF-%23D00000.svg?style=for-the-badge&logo=adobe-acrobat-reader&logoColor=white)](https://drive.google.com/file/d/1qipafT_ENNz7PW3FFGXFgxcnpALQLhQp/view?usp=sharing)
+
 ### Dependencias
 
 [![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://v18.angular.dev/) [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/en/download) [![Bun](https://img.shields.io/badge/Bun-1B1B1B?style=for-the-badge&logo=bun&logoColor=FFFFFF)](https://bun.sh) [![Testing Library](https://img.shields.io/badge/-Testing%20Library-%23E38332?style=for-the-badge&logo=testing-library&logoColor=white)](https://testing-library.com/docs/angular-testing-library/intro)
@@ -138,3 +142,5 @@ src/
 ├── index.html
 └── index.scss
 ```
+
+
