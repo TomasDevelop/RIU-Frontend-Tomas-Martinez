@@ -16,6 +16,7 @@ import { HeroesService } from '../../../../modules/layout/services/heroes.servic
 import { LoaderService } from '../../../../shared/services/loader/loader.service';
 // Utils
 import { ROUTES, UppercaseDirective } from '../../../../shared/utils';
+import { LoaderComponent } from '../../../../shared/components/loader/loader.component';
 
 const components = [
   MatInputModule,
@@ -23,7 +24,8 @@ const components = [
   MatSelectModule,
   MatButton,
   RouterLink,
-  UppercaseDirective
+  UppercaseDirective,
+  LoaderComponent
 ]
 
 @Component({
@@ -90,7 +92,7 @@ export class AddHeroComponent {
 
   onSubmit(formulary: FormGroup<EditOrAddHero>): void {
     if (formulary.invalid) return this.form.markAllAsTouched();
-
+    this.#loader.show()
     const UPDATE_PAYLOAD: Omit<Heroes, 'id'> = {
       name: formulary.controls.name.value ?? '',
       gender: formulary.controls.gender.value ?? '',
