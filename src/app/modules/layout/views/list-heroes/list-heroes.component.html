@@ -25,13 +25,13 @@
     </form>
   </section>
 
-  <!-- ## Comento el defer-->
+  <!-- ## Comento el defer/ no se incluirlo en el testing-->
   <!-- @defer (when heroes()) { -->
   <section class="card__container">
     @for (hero of pagedHeroes(); track $index) {
     <mat-card data-testid="hero-card" appearance="outlined" class="card__container-matCard">
       <mat-card-header>
-        <h1 class="matCard--title">{{ hero.name }}</h1>
+        <h1 class="matCard--title">{{ hero.name | uppercase }}</h1>
       </mat-card-header>
       <mat-card-content class="matCard--content">
         <img

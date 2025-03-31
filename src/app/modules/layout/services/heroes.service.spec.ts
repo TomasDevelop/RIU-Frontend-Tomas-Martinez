@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HeroesService } from './heroes.service';
 import { GENDER, Heroes } from '../models/heroes.model';
-import { WritableSignal } from '@angular/core';
+import { DEFAULT_HERO } from './heroes.dictionary';
 
 
 describe('HeroesService', () => {
@@ -67,7 +67,7 @@ describe('HeroesService', () => {
 
     it('should return undefined for non-existent id', () => {
       const result = service.getHeroById(999);
-      expect(result).toBeUndefined();
+      expect(result).toBe(DEFAULT_HERO);
     });
   })
 
@@ -98,7 +98,7 @@ describe('HeroesService', () => {
 
       service.deleteHero(0);
 
-      expect(service.getHeroById(0)).toBeUndefined();
+      expect(service.getHeroById(0)).toBe(DEFAULT_HERO);
       expect(service.filteredHeroes().length).toBe(initialHeroes.length - 1);
     });
 

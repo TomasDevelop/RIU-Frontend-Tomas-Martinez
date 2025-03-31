@@ -1,10 +1,18 @@
-import { fireEvent, render, screen, waitFor, within } from '@testing-library/angular';
-import { HeroesService } from '../../services/heroes.service';
-import { ListHeroesComponent } from './list-heroes.component';
-import { HeroesDictionary } from '../../services/heroes.dictionary';
+// The Angular Imports
+import { provideLocationMocks } from '@angular/common/testing';
 import { PageEvent } from '@angular/material/paginator';
-import { fakeAsync, tick } from '@angular/core/testing';
+import { fakeAsync } from '@angular/core/testing';
+import { provideRouter, Router } from '@angular/router';
+// Testing Library
+import { render, screen, within } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
+// Models
+import { HeroesDictionary } from '../../services/heroes.dictionary';
+// Services
+import { HeroesService } from '../../services/heroes.service';
+// Components
 import { MatDialog } from '@angular/material/dialog';
+import { ListHeroesComponent } from './list-heroes.component';
 
 describe('ListHeroesComponent', () => {
   let heroesServiceMock: jest.Mocked<HeroesService>
@@ -40,26 +48,36 @@ describe('ListHeroesComponent', () => {
 
 
   describe('Click actions on Card Heroes', () => {
-    it('should render pagedHeroes and click Edit', fakeAsync(async () => {
-      // given
+
+    class MockEditComponent { }
+
+    it('should render pagedHeroes and click Edit', async () => {
       heroesServiceMock.filteredHeroes.mockReturnValue(HeroesDictionary);
 
       const { fixture } = await render(ListHeroesComponent, {
-        providers: [{ provide: HeroesService, useValue: heroesServiceMock }],
+        providers: [
+          provideRouter([
+            { path: 'update/:id', component: MockEditComponent }
+          ]),
+          provideLocationMocks(),
+          { provide: HeroesService, useValue: heroesServiceMock }
+        ]
       });
+
       const component = fixture.componentInstance;
       component.pageSize.set(4);
       component.currentPage.set(0);
       fixture.detectChanges();
 
-      // when
       expect(component.pagedHeroes().length).toBe(4);
 
       const cards = await screen.findAllByTestId('hero-card');
-      const firstCard = cards[1];
-      const editButton = await within(firstCard).findByRole('button', { name: /edit/i });
-      await fireEvent.click(editButton);
-    }));
+      const editButton = within(cards[1]).getByRole('button', { name: /edit/i });
+      await userEvent.click(editButton);
+
+      const router = fixture.debugElement.injector.get(Router);
+      expect(router.url).toBe('/update/1');
+    });
 
     it('should render pagedHeroes and click Delete', async () => {
       // given
@@ -78,8 +96,8 @@ describe('ListHeroesComponent', () => {
       const firstCard = cards[1];
       const spy = jest.spyOn(component, 'openDialogDelete');
       // then
-      const deleteButton = await within(firstCard).findByRole('button', { name: /delete/i });
-      await fireEvent.click(deleteButton);
+      const deleteButton = await within(firstCard).getByRole('button', { name: /delete/i });
+      await userEvent.click(deleteButton);
 
       expect(spy).toHaveBeenCalledWith(component.pagedHeroes()[1]);
     });
@@ -117,8 +135,9 @@ describe('ListHeroesComponent', () => {
       const spy = jest.spyOn(component, 'openDialogDelete');
 
       // then
-      const deleteButton = await within(firstCard).findByRole('button', { name: /delete/i });
-      await fireEvent.click(deleteButton);
+      const deleteButton = await within(firstCard).getByRole('button', { name: /delete/i });
+      await userEvent.click(deleteButton);
+
       expect(spy).toHaveBeenCalledWith(component.pagedHeroes()[1]);
       const subscribeSpy = dialogRefMock.afterClosed().pipe().subscribe as jest.Mock;
       subscribeSpy.mock.calls[0][0](true);

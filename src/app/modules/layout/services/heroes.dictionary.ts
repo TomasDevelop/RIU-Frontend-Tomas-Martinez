@@ -168,7 +168,7 @@ export const DEFAULT_HERO: Heroes = {
     name: 'Default',
     gender: GENDER.O,
     slogan: '',
-    skills: { intelligence: 0, strength: 0, speed: 0, durability: 0, power: 0, combat: 0 },
-    image: ''
+    skills: { intelligence: 1, strength: 1, speed: 1, durability: 1, power: 1, combat: 1 },
+    image: 'assets/svg/heroes/image-broken.webp&s'
   }
 

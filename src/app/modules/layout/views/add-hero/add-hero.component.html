@@ -20,7 +20,7 @@
     <!-- Name -->
     <mat-form-field class="example-full-width">
       <mat-label>Name</mat-label>
-      <input [formControl]="form.controls.name" matInput />
+      <input appUppercase [formControl]="form.controls.name" matInput />
       @if (form.controls.name.invalid) {
       <mat-error>Name is required</mat-error>
       }

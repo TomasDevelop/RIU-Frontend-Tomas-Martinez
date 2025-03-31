@@ -2,7 +2,7 @@
 import { computed, Injectable, signal } from '@angular/core';
 // Models
 import { Heroes } from '@app/modules/layout/models/heroes.model';
-import { HeroesDictionary } from './heroes.dictionary';
+import { DEFAULT_HERO, HeroesDictionary } from './heroes.dictionary';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,9 @@ export class HeroesService {
   private dataSignal = signal<Heroes[]>(HeroesDictionary);
   public dataAllHeroes = this.dataSignal.asReadonly();
 
-  getHeroById(heroId: number): Heroes | undefined {
-    return this.dataAllHeroes().find(hero => heroId == Number(hero.id))
+  getHeroById(heroId: number): Heroes {
+    const heroById = this.dataAllHeroes().find(hero => heroId == Number(hero.id))
+    return heroById ?? DEFAULT_HERO
   }
 
   addHero(hero: Omit<Heroes, 'id'>): void {

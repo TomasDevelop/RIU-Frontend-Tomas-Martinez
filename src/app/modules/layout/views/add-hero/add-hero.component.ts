@@ -13,14 +13,15 @@ import { EditOrAddHero, EditOrAddSkills } from '@app/modules/layout/models/edit-
 import { GENDER, Heroes } from '@app/modules/layout/models/heroes.model';
 // Services
 import { HeroesService } from '@app/modules/layout/services/heroes.service';
-import { ROUTES } from '@app/shared/utils';
+import { ROUTES, UppercaseDirective } from '@app/shared/utils';
 
 const components = [
   MatInputModule,
   MatFormFieldModule,
   MatSelectModule,
   MatButton,
-  RouterLink
+  RouterLink,
+  UppercaseDirective
 ]
 
 @Component({

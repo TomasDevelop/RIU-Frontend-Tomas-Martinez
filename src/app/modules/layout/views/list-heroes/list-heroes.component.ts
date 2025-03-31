@@ -19,6 +19,7 @@ import { Heroes } from '@app/modules/layout/models/heroes.model';
 import { HeroesService } from '../../services/heroes.service';
 // Components
 import { DialogComponent } from '../../components/dialog/dialog.component';
+import { UpperCasePipe } from '@angular/common';
 
 const components = [
   MatCardModule,
@@ -27,7 +28,8 @@ const components = [
   MatChipsModule,
   MatIconModule,
   MatInputModule,
-  MatFormFieldModule
+  MatFormFieldModule,
+  UpperCasePipe
 ]
 @Component({
   selector: 'app-list-heroes',
@@ -35,7 +37,7 @@ const components = [
   imports: [ReactiveFormsModule, RouterLink, ...components],
   templateUrl: './list-heroes.component.html',
   styleUrl: './list-heroes.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListHeroesComponent {
   #dataHeroes = inject(HeroesService)

@@ -10,21 +10,23 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterLink } from '@angular/router';
 // Models
-import { EditOrAddHero, EditOrAddSkills } from '@app/modules/layout/models/edit-or-add-hero.model';
-import { GENDER, Heroes } from '@app/modules/layout/models/heroes.model';
+import { GENDER, Heroes } from '../../models/heroes.model';
+import { EditOrAddHero, EditOrAddSkills } from '../../models/edit-or-add-hero.model';
 // Services
-import { HeroesService } from '@app/modules/layout/services/heroes.service';
+import { HeroesService } from '../../services/heroes.service';
 // Components
-import { LoaderComponent } from '@app/shared/components/loader/loader.component';
-import { ROUTES } from '@app/shared/utils';
+import { ROUTES, UppercaseDirective } from '../../../../shared/utils';
+// Directives
+
+
 
 const components = [
-  LoaderComponent,
   MatInputModule,
   MatFormFieldModule,
   MatSelectModule,
   MatButton,
-  RouterLink
+  RouterLink,
+  UppercaseDirective
 ]
 
 @Component({
@@ -35,7 +37,7 @@ const components = [
   styleUrl: './edit-hero.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
   ]
 })
 export class EditHeroComponent implements OnInit {
@@ -44,7 +46,7 @@ export class EditHeroComponent implements OnInit {
   #router = inject(Router)
   id = input.required<number>()
 
-  readonly heroById = computed<Heroes | undefined>(() => {
+  readonly heroById = computed<Heroes>(() => {
     return this.#hero.getHeroById(this.id())
   })
   getSkillControl(key: string): FormControl<number> {
@@ -56,7 +58,7 @@ export class EditHeroComponent implements OnInit {
     Validators.min(0),
     Validators.max(100),
     Validators.pattern(/^\d+$/)
-];
+  ];
 
   form: FormGroup<EditOrAddHero> = this.#fb.group<EditOrAddHero>({
     name: this.#fb.control('', {
@@ -92,13 +94,23 @@ export class EditHeroComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.form.setValue({
-      name: this.heroById()!.name,
-      slogan: this.heroById()!.slogan,
-      skills: this.heroById()!.skills,
-      gender: this.heroById()!.gender,
-      image: this.heroById()!.image,
-    })
+    const hero = this.heroById();
+    if (hero) {
+      this.form.setValue({
+        name: hero.name ?? '',
+        slogan: hero.slogan ?? '',
+        gender: hero.gender ?? GENDER.O,
+        skills: {
+          intelligence: hero.skills?.intelligence ?? 0,
+          strength: hero.skills?.speed ?? 0,
+          speed: hero.skills?.speed ?? 0,
+          durability: hero.skills?.durability ?? 0,
+          power: hero.skills?.power ?? 0,
+          combat: hero.skills?.combat ?? 0
+        },
+        image: hero.image ?? ''
+      });
+    }
   }
 
   onSubmit(formulary: FormGroup<EditOrAddHero>): void {
