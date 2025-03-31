@@ -1,17 +1,25 @@
+// The Angular Imports
 import { provideRouter, Router } from "@angular/router";
 import { provideLocationMocks } from "@angular/common/testing";
 import { of } from "rxjs";
+// Testing Library
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
+// Models
 import { HeroesDictionary } from "../../services/heroes.dictionary";
-import { HeroesService } from "../../services/heroes.service";
 import { GENDER, Heroes } from "../../models/heroes.model";
+// Services
+import { HeroesService } from "../../services/heroes.service";
+import { LoaderService } from '../../../../shared/services/loader/loader.service';
+// Components
 import { EditHeroComponent } from "./edit-hero.component";
-
-class MockEditComponent { }
+import { fakeAsync, tick, waitForAsync } from "@angular/core/testing";
+import { ROUTES } from '../../../../shared/utils/routes.const';
+import { ListHeroesComponent } from "../list-heroes/list-heroes.component";
 
 describe('EditHeroesComponent', () => {
   let heroesServiceMock: jest.Mocked<HeroesService>;
+  let loaderServiceMock: jest.Mocked<LoaderService>
   const currentHero: Heroes = HeroesDictionary[0];
 
   beforeEach(() => {
@@ -19,17 +27,76 @@ describe('EditHeroesComponent', () => {
       updateHero: jest.fn(),
       getHeroById: jest.fn().mockReturnValue(of(currentHero)),
     } as unknown as jest.Mocked<HeroesService>;
+    loaderServiceMock = {
+      isLoading: jest.fn(),
+      show: jest.fn().mockReturnValue(of(true)),
+      hide: jest.fn().mockReturnValue(of(false)),
+    } as unknown as jest.Mocked<LoaderService>;
   });
 
-  it('should update hero and navigate to "/list"', async () => {
+  it('should form is invalid', async () => {
+    // given
+    heroesServiceMock.getHeroById
+    const { fixture } = await render(EditHeroComponent, {
+      inputs: { id: currentHero.id },
+      providers: [
+        { provide: HeroesService, useValue: heroesServiceMock },
+      ],
+    });
+    // when
+    await fixture.whenStable();
+    fixture.detectChanges();
+    fixture.componentInstance.form.controls.name.setValue('');
+    const markAllAsTouchedSpy = jest.spyOn(fixture.componentInstance.form, 'markAllAsTouched');
+    await userEvent.click(screen.getByRole('button', { name: /update hero/i }));
+    // then
+    expect(markAllAsTouchedSpy).toHaveBeenCalled();
+  });
+
+  it('should execute return when form is valid', waitForAsync(fakeAsync(async () => {
     // given
     const { fixture } = await render(EditHeroComponent, {
       inputs: { id: currentHero.id },
-      providers: [{ provide: HeroesService, useValue: heroesServiceMock },
-      provideRouter([
-        { path: 'list', component: MockEditComponent }
-      ]),
-      provideLocationMocks(),
+      providers: [
+        { provide: HeroesService, useValue: heroesServiceMock },
+        { provide: LoaderService, useValue: loaderServiceMock },
+        provideRouter([
+          { path: 'list', component: ListHeroesComponent }
+        ]),
+        provideLocationMocks(),
+      ],
+    });
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    // Asegurar que el formulario sea válido
+    fixture.componentInstance.form.controls.name.setValue('Valid Name');
+    fixture.componentInstance.form.controls.slogan.setValue('Valid Slogan');
+
+    fixture.componentInstance.onSubmit(fixture.componentInstance.form);
+    await userEvent.click(screen.getByRole('button', { name: /update hero/i }));
+
+    const router = fixture.debugElement.injector.get(Router);
+
+    expect(loaderServiceMock.show).toHaveBeenCalled()
+    tick(400)
+    expect(loaderServiceMock.hide).toHaveBeenCalled();
+    expect(router.url).toBe([ROUTES.list]);
+  })));
+
+  it('should update hero and navigate to "/list"', waitForAsync(fakeAsync(async () => {
+    // given
+    loaderServiceMock.isLoading.mockReturnValue(false)
+    const { fixture } = await render(EditHeroComponent, {
+      inputs: { id: currentHero.id },
+      providers: [
+        { provide: HeroesService, useValue: heroesServiceMock },
+        { provide: LoaderService, useValue: loaderServiceMock },
+        provideRouter([
+          { path: 'list', component: ListHeroesComponent }
+        ]),
+        provideLocationMocks(),
       ]
     });
     // when
@@ -67,6 +134,7 @@ describe('EditHeroesComponent', () => {
 
     expect(fixture.componentInstance.form.valid).toBe(true);
 
+    fixture.componentInstance.onSubmit(fixture.componentInstance.form);
     await userEvent.click(screen.getByRole('button', { name: /update hero/i }));
 
     // then
@@ -87,8 +155,13 @@ describe('EditHeroesComponent', () => {
         image: ''
       })
     );
+
     // then
     const router = fixture.debugElement.injector.get(Router);
-    expect(router.url).toBe('/list');
-  });
+    expect(loaderServiceMock.show).toHaveBeenCalled()
+    tick(400)
+    expect(loaderServiceMock.hide).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith([ROUTES.list]);
+    // then
+  })));
 });

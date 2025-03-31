@@ -1,2 +1,2 @@
 export * from './routes.const'
-export * from './uppercase.directive'
+export * from './uppercase-directive/uppercase.directive'

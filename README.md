@@ -1,8 +1,15 @@
 # RIUFrontendTomasMartinez
 
-### Diagrama del app
+### Diagrama del app 
 
-[![PDF](https://img.shields.io/badge/PDF-%23D00000.svg?style=for-the-badge&logo=adobe-acrobat-reader&logoColor=white)](https://drive.google.com/file/d/1qipafT_ENNz7PW3FFGXFgxcnpALQLhQp/view?usp=sharing)
+[![PDF](https://img.shields.io/badge/PDF-%23D00000.svg?style=for-the-badge&logo=adobe-acrobat-reader&logoColor=white)](https://drive.google.com/file/d/1qipafT_ENNz7PW3FFGXFgxcnpALQLhQp/view?usp=sharing)  
+
+--- 
+
+### Vista previa    
+[![DEMO](https://img.shields.io/badge/DEMO-LIVE-2ea44f?style=for-the-badge&logoColor=white&logo=github)](https://riu-frontend-tomas-martinez.vercel.app/list)
+
+---
 
 ### Dependencias
 
@@ -32,7 +39,6 @@ npm i @angular/cli@18.12.16
   - Jest: **V29.7.0**
   - Types jest: **V29.5.14**
 ```
-
 ---
 
 ### Styles
@@ -50,42 +56,31 @@ npm i @angular/cli@18.12.16
   - Manejador de paquetes: Este proyecto fue levantando con [Bun](https://bun.sh/)
 
 ```
-bun install
-
-o
-
-npm install
-
-o
-
-pnpm install
+bun, npm, pnpm o yarn install
 ```
 
 - **Correr proyecto:**
 ```
-bun start
-
-o
-
-npm run start
-
-o
-
-pnpm run start
+bun, npm, pnpm o yarn start
 ```
 
 - **Testear cobertura:**
 ```
-bun testing
-
-o
-
-npm run testing
-
-o
-
-pnpm run testing
+bun, npm, pnpm o yarn testing
 ```
+
+---
+
+### Dockerfile
+
+[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+  - Se necesita el package-lock.json para levantar la imagen (Si usaste un manejador de paquetes distinto a npm, debés hacer un npm install antes).
+
+  - Levantar imagen: docker build -t challenge-riu .
+
+  - Ejecutar el contenedor de la imagen: docker run --rm -d -p 80:80/tcp challenge-docker:latest
+
+Abrí tu navegador en [http://localhost](http://localhost/list) después de ejecutar la imagen.
 
 ---
 

@@ -9,11 +9,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterLink } from '@angular/router';
 // Models
-import { EditOrAddHero, EditOrAddSkills } from '@app/modules/layout/models/edit-or-add-hero.model';
-import { GENDER, Heroes } from '@app/modules/layout/models/heroes.model';
+import { EditOrAddHero, EditOrAddSkills } from '../../../../modules/layout/models/edit-or-add-hero.model';
+import { GENDER, Heroes } from '../../../../modules/layout/models/heroes.model';
 // Services
-import { HeroesService } from '@app/modules/layout/services/heroes.service';
-import { ROUTES, UppercaseDirective } from '@app/shared/utils';
+import { HeroesService } from '../../../../modules/layout/services/heroes.service';
+import { LoaderService } from '../../../../shared/services/loader/loader.service';
+// Utils
+import { ROUTES, UppercaseDirective } from '../../../../shared/utils';
 
 const components = [
   MatInputModule,
@@ -35,6 +37,7 @@ const components = [
 export class AddHeroComponent {
   #fb = inject(NonNullableFormBuilder)
   #hero = inject(HeroesService)
+  #loader = inject(LoaderService)
   #router = inject(Router)
   id = input.required<number>()
 
@@ -104,7 +107,10 @@ export class AddHeroComponent {
     }
 
     this.#hero.addHero(UPDATE_PAYLOAD)
-    this.#router.navigate([ROUTES.list])
+    setTimeout(() => {
+      this.#loader.hide()
+      this.#router.navigate([ROUTES.list])
+    }, 400)
     return
     }
 

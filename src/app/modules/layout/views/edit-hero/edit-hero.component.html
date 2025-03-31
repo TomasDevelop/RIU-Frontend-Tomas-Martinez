@@ -1,7 +1,6 @@
 <section class="container">
   <h1 class="container--title">Edit your Hero</h1>
   <span>Maintain your heroes updates.</span>
-  <!-- @defer (when heroById()) { -->
       <form class="container__form" [formGroup]="form">
         <section class="container__form-image">
           <img [src]="form.controls.image.value ? form.controls.image.value :  heroById()!.image" [alt]="heroById()!.name"
@@ -72,5 +71,6 @@
            Update hero
          </button>
        </section>
-  <!-- } @placeholder {  Loading hero} -->
 </section>
+
+<app-loader/>

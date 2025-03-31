@@ -16,8 +16,8 @@ import { EditOrAddHero, EditOrAddSkills } from '../../models/edit-or-add-hero.mo
 import { HeroesService } from '../../services/heroes.service';
 // Components
 import { ROUTES, UppercaseDirective } from '../../../../shared/utils';
-// Directives
-
+import { LoaderService } from '../../../../shared/services';
+import { LoaderComponent } from '../../../../shared/components/loader/loader.component';
 
 
 const components = [
@@ -26,13 +26,16 @@ const components = [
   MatSelectModule,
   MatButton,
   RouterLink,
-  UppercaseDirective
+  UppercaseDirective,
+  KeyValuePipe,
+  TitleCasePipe,
+  LoaderComponent
 ]
 
 @Component({
   selector: 'app-edit-hero',
   standalone: true,
-  imports: [KeyValuePipe, TitleCasePipe, ReactiveFormsModule, ...components],
+  imports: [ReactiveFormsModule, ...components],
   templateUrl: './edit-hero.component.html',
   styleUrl: './edit-hero.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,6 +46,7 @@ const components = [
 export class EditHeroComponent implements OnInit {
   #fb = inject(NonNullableFormBuilder)
   #hero = inject(HeroesService)
+  #loader = inject(LoaderService)
   #router = inject(Router)
   id = input.required<number>()
 
@@ -115,7 +119,7 @@ export class EditHeroComponent implements OnInit {
 
   onSubmit(formulary: FormGroup<EditOrAddHero>): void {
     if (formulary.invalid) return this.form.markAllAsTouched();
-
+    this.#loader.show()
     const UPDATE_PAYLOAD: Heroes = {
       id: Number(this.id()),
       name: formulary.controls.name.value ?? this.heroById()!.name,
@@ -133,7 +137,10 @@ export class EditHeroComponent implements OnInit {
     }
 
     this.#hero.updateHero(UPDATE_PAYLOAD)
-    this.#router.navigate([ROUTES.list])
+    setTimeout(() => {
+      this.#loader.hide()
+      this.#router.navigate([ROUTES.list])
+    }, 400)
     return
   }
 }

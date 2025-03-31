@@ -1,5 +1,7 @@
 // Angular Imports
-import { ChangeDetectionStrategy, Component, booleanAttribute, input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, booleanAttribute, computed, inject, input } from '@angular/core'
+// Services
+import { LoaderService } from '../../services/loader/loader.service';
 
 @Component({
 	standalone: true,
@@ -10,7 +12,9 @@ import { ChangeDetectionStrategy, Component, booleanAttribute, input } from '@an
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoaderComponent {
-	readonly loading = input<boolean, string | boolean>(false, { transform: booleanAttribute })
+  #loaderService = inject(LoaderService);
+
+  readonly loading = computed<boolean>(() => this.#loaderService.isLoading())
 	readonly background = input<boolean, string | boolean>(false, { transform: booleanAttribute })
 	readonly radius = input<boolean, string | boolean>(false, { transform: booleanAttribute })
 	readonly minHeight = input<string>('100dvh')
