@@ -1,4 +1,4 @@
-# RIUFrontendTomasMartinez
+# Heroes App
 
 ### Diagrama del app 
 
