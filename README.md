@@ -7,7 +7,7 @@
 --- 
 
 ### Vista previa    
-[![DEMO](https://img.shields.io/badge/DEMO-LIVE-2ea44f?style=for-the-badge&logoColor=white&logo=github)](https://riu-frontend-tomas-martinez.vercel.app/list)
+[![DEMO](https://img.shields.io/badge/DEMO-LIVE-2ea44f?style=for-the-badge&logoColor=white&logo=github)](https://heroes-app-testing-angular18.vercel.app/list)
 
 ---
 
